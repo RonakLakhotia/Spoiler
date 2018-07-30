@@ -25,4 +25,22 @@ window.onload = runOnPageLoad;
 
 function runOnPageLoad() {
 	console.log('works');
+	updateList();
+	searchPageForSpoilers();
+	var submitButton = document.getElementById("Submit_button");
+	var input = document.getElementById("blocker");
+	submitButton.addEventListener("click", getSpoilerText);
+
+	function getSpoilerText(event) {
+		if (input.value.length > 0 && event.keyCode === 13) {
+			createElement();
+		}
+	}
+	function createElement() {
+		spoilerItemsList.push(input.value);
+		saveSpoilerList();
+		input.value = '';
+		updateList();
+		searchPageForSpoilers();
+	}
 }

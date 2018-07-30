@@ -1,3 +1,4 @@
+
 var spoilerItemsList;
 
 chrome.storage.sync.get("spoiler", function(res) {
@@ -18,4 +19,10 @@ saveSpoilerList = function() {
 			console.log(chrome.runtime.error);
 		}
 	});
+}
+
+window.onload = runOnPageLoad;
+
+function runOnPageLoad() {
+	console.log('works');
 }

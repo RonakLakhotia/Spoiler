@@ -1,5 +1,5 @@
 
- var spoilerItemsList = [];
+ var spoilerItemsList = {};
 
 // chrome.storage.sync.get("spoiler", function(res) {
 // 	spoilerItemsList = res;
@@ -29,9 +29,17 @@ function runOnPageLoad() {
 	//searchPageForSpoilers();
 	var submitButton = document.getElementById("enter");
 	var input = document.getElementById("blocker");
+	var clearButton = document.getElementById("clear-button");
+	clearButton.addEventListener("click", clearList);
 	submitButton.addEventListener("click", getSpoilerText);
 	input.addEventListener("keypress", getSpoilerTextAfterKeyPress);
 
+	function runPageSearch() {
+		//saveSpoilerList();
+		input.value = '';
+		//updateList();
+		//searchPageForSpoilers();
+	}
 	function getSpoilerText() {
 		if (input.value.length > 0) {
 			createElement();
@@ -42,12 +50,15 @@ function runOnPageLoad() {
 			createElement();
 		}
 	}
+	function clearList() {
+		spoilerItemsList = {
+			'spoiler': []
+		};
+		runPageSearch();
+	}
 	function createElement() {
 		console.log(input.value);
 		spoilerItemsList.push(input.value);
-		//saveSpoilerList();
-		input.value = '';
-		//updateList();
-		//searchPageForSpoilers();
+		runPageSearch();
 	}
 }

@@ -3,12 +3,12 @@
 
 // chrome.storage.sync.get("spoiler", function(res) {
 // 	spoilerItemsList = res;
-// 	if (spoilerItemsList['spoiler'] == null) {
-// 		spoilerItemsList = {
-// 			'spoiler': [] //initialize spoilerItemsList object
-// 		};
-// 		saveSpoilerList();
-// 	}
+	if (spoilerItemsList['spoiler'] == null) {
+		spoilerItemsList = {
+			'spoiler': [] //initialize spoilerItemsList object
+		};
+//		saveSpoilerList();
+	}
 // });
 
 saveSpoilerList = function() {
@@ -25,7 +25,7 @@ window.onload = runOnPageLoad;
 
 function runOnPageLoad() {
 	console.log('works');
-	//updateList();
+	updateList();
 	//searchPageForSpoilers();
 	var submitButton = document.getElementById("enter");
 	var input = document.getElementById("blocker");
@@ -37,7 +37,7 @@ function runOnPageLoad() {
 	function runPageSearch() {
 		//saveSpoilerList();
 		input.value = '';
-		//updateList();
+		updateList();
 		//searchPageForSpoilers();
 	}
 	function getSpoilerText() {
@@ -53,12 +53,16 @@ function runOnPageLoad() {
 	function clearList() {
 		spoilerItemsList = {
 			'spoiler': []
-		};
+		};console.log('works');
 		runPageSearch();
 	}
 	function createElement() {
-		console.log(input.value);
-		spoilerItemsList.push(input.value);
+		spoilerItemsList['spoiler'].push(input.value);
+		console.log(spoilerItemsList);
 		runPageSearch();
 	}
+}
+
+function updateList() {
+
 }

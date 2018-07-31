@@ -24,9 +24,15 @@ saveSpoilerList = function() {
 window.onload = runOnPageLoad;
 
 function runOnPageLoad() {
-	console.log('works');
 	updateList();
 	//searchPageForSpoilers();
+
+	document.addEventListener('click', function(event) {
+		var itemClicked = event.target;
+		if (itemClicked.className === 'spoilerListItem') {
+			event.target.parentNode.removeChild(event.target);
+		}
+	});
 	var submitButton = document.getElementById("enter");
 	var input = document.getElementById("blocker");
 	var clearButton = document.getElementById("clear-button");
@@ -67,11 +73,12 @@ function runOnPageLoad() {
 function updateList() {
 	if (spoilerItemsList['spoiler'] != null) {
 		listOfItems.innerHTML = "";
+		var html = "<ul>";
 		for (let i = 0; i < spoilerItemsList['spoiler'].length; i++) {
-			var li = document.createElement("li");
-			li.appendChild(document.createTextNode(spoilerItemsList['spoiler'][i]));
-			listOfItems.append(li);
+			html += '<li><a class="spoilerListItem" href="#">' + spoilerItemsList['spoiler'][i] + '</a></li>';
 		}
+		html += "</ul>";
+		listOfItems.innerHTML = html;
 	}
 }
 

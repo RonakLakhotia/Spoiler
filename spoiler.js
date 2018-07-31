@@ -1,6 +1,6 @@
 
- var spoilerItemsList = {};
-
+var spoilerItemsList = {};
+var listOfItems = document.getElementById("list");
 // chrome.storage.sync.get("spoiler", function(res) {
 // 	spoilerItemsList = res;
 	if (spoilerItemsList['spoiler'] == null) {
@@ -30,6 +30,7 @@ function runOnPageLoad() {
 	var submitButton = document.getElementById("enter");
 	var input = document.getElementById("blocker");
 	var clearButton = document.getElementById("clear-button");
+
 	clearButton.addEventListener("click", clearList);
 	submitButton.addEventListener("click", getSpoilerText);
 	input.addEventListener("keypress", getSpoilerTextAfterKeyPress);
@@ -64,5 +65,15 @@ function runOnPageLoad() {
 }
 
 function updateList() {
-
+	if (spoilerItemsList['spoiler'] != null) {
+		listOfItems.innerHTML = "";
+		for (let i = 0; i < spoilerItemsList['spoiler'].length; i++) {
+			var li = document.createElement("li");
+			li.appendChild(document.createTextNode(spoilerItemsList['spoiler'][i]));
+			listOfItems.append(li);
+		}
+	}
 }
+
+
+

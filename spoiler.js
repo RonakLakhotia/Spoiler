@@ -83,5 +83,15 @@ function updateList() {
 	}
 }
 
+function saveSpoilerList() {
+	chrome.storage.sync.set({
+		'spoiler': spoilerItemsList['spoiler']
+	}, function(result) {
+		if (chrome.runtime.error) {
+			console.log(chrome.runtime.error);
+		}
+	});
+}
+
 
 

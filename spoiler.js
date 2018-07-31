@@ -30,7 +30,8 @@ function runOnPageLoad() {
 	document.addEventListener('click', function(event) {
 		var itemClicked = event.target;
 		if (itemClicked.className === 'spoilerListItem') {
-			event.target.parentNode.removeChild(event.target);
+			itemClicked.parentNode.parentNode.removeChild(itemClicked.parentNode);
+			spoilerItemsList['spoiler'].splice(spoilerItemsList['spoiler'].indexOf(itemClicked.text), 1);
 		}
 	});
 	var submitButton = document.getElementById("enter");

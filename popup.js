@@ -3,32 +3,18 @@ var listOfItems = document.getElementById("list");
 var REMOVE_SPOILER_ITEM_MESSAGE = 'remove';
 var SEARCH_PAGE_MESSAGE = 'search';
 
-   chrome.storage.sync.get("spoiler", function (results) {
-    spoilerItemsList = results;
-    updateList();	
-    if (spoilerItemsList['spoiler'] == null) {
-        spoilerItemsList = {
-            'spoiler': []
-        };
-        save();
-    }
+chrome.storage.sync.get("spoiler", function (results) {
+	spoilerItemsList = results;
+	updateList();	
+	if (spoilerItemsList['spoiler'] == null) {
+		spoilerItemsList = {
+			'spoiler': []
+		};
+		save();
+	}
 });
 
- //   	var observer = new MutationObserver(function (mutations, observer) {
- //        // fired when a mutation occurs
- //        mutations.forEach(function(mutation) {
- //            searchPageForSpoilers(SEARCH_PAGE_MESSAGE); console.log('lolz');
- //        });
-
-	//     observer.observe(document, {
-	//     childList: true,
-	//     subtree: true,
-	//     attributes: false,
-	//     characterData: false,
-	//     });
- // });
- 
-   function save() {
+function save() {
 	chrome.storage.sync.set({
 		'spoiler': spoilerItemsList['spoiler']
 	}, function(result) {
@@ -37,56 +23,56 @@ var SEARCH_PAGE_MESSAGE = 'search';
 		}
 	}); 
 }
-	document.addEventListener('click', function(event) {
-		var itemClicked = event.target;
-		if (itemClicked.className === 'spoilerListItem') {
-			itemClicked.parentNode.parentNode.removeChild(itemClicked.parentNode);
-			spoilerItemsList['spoiler'].splice(spoilerItemsList['spoiler'].indexOf(itemClicked.text), 1);
-		    searchPageForSpoilers(REMOVE_SPOILER_ITEM_MESSAGE);
-		}
-	});
-
-	var submitButton = document.getElementById("enter");
-	var input = document.getElementById("blocker");
-	var clearButton = document.getElementById("clear-button");
-
-	clearButton.addEventListener("click", clearList);
-	submitButton.addEventListener("click", getSpoilerText);
-	input.addEventListener("keypress", getSpoilerTextAfterKeyPress);
-
-	function runPageSearch(type) {
-		save();
-		input.value = '';
-		updateList();	
-		searchPageForSpoilers(type);
+document.addEventListener('click', function(event) {
+	var itemClicked = event.target;
+	if (itemClicked.className === 'spoilerListItem') {
+		itemClicked.parentNode.parentNode.removeChild(itemClicked.parentNode);
+		spoilerItemsList['spoiler'].splice(spoilerItemsList['spoiler'].indexOf(itemClicked.text), 1);
+		searchPageForSpoilers(REMOVE_SPOILER_ITEM_MESSAGE);
 	}
+});
 
-	function getSpoilerText() {
-		if (input.value.length > 0) {
-			createElement();
-		}
+var submitButton = document.getElementById("enter");
+var input = document.getElementById("blocker");
+var clearButton = document.getElementById("clear-button");
+
+clearButton.addEventListener("click", clearList);
+submitButton.addEventListener("click", getSpoilerText);
+input.addEventListener("keypress", getSpoilerTextAfterKeyPress);
+
+function runPageSearch(type) {
+	save();
+	input.value = '';
+	updateList();	
+	searchPageForSpoilers(type);
+}
+
+function getSpoilerText() {
+	if (input.value.length > 0) {
+		createElement();
 	}
+}
 
-	function getSpoilerTextAfterKeyPress(event) {
-		if (input.value.length > 0 && event.keyCode === 13) {
-			createElement();
-		}
+function getSpoilerTextAfterKeyPress(event) {
+	if (input.value.length > 0 && event.keyCode === 13) {
+		createElement();
 	}
+}
 
-	function clearList() {
-		let CLEAR = "clear";
-		spoilerItemsList = {
-			'spoiler': []
-		};
-		runPageSearch(CLEAR);
-	}
+function clearList() {
+	let CLEAR = "clear";
+	spoilerItemsList = {
+		'spoiler': []
+	};
+	runPageSearch(CLEAR);
+}
 
-	function createElement() {
-		spoilerItemsList['spoiler'].push(input.value);
-		runPageSearch(input.value);
-	}
+function createElement() {
+	spoilerItemsList['spoiler'].push(input.value);
+	runPageSearch(input.value);
+}
 
-	function updateList() {
+function updateList() {
 	if (spoilerItemsList['spoiler'] != null) {
 		listOfItems.innerHTML = "";
 		var html = "<ul>";
@@ -97,8 +83,8 @@ var SEARCH_PAGE_MESSAGE = 'search';
 		listOfItems.innerHTML = html;
 	}
 }
-	function searchPageForSpoilers(type) {
+function searchPageForSpoilers(type) {
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-    chrome.tabs.sendMessage(tabs[0].id, {action: type}, function(response) {});  
-		});
-	}
+		chrome.tabs.sendMessage(tabs[0].id, {action: type}, function(response) {});  
+	});
+}

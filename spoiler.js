@@ -1,5 +1,8 @@
 var spoilerItemsList ;
 var text;
+var CLEAR_MESSAGE = 'clear';
+var REMOVE_ITEM_MESSAGE = 'remove';
+
 chrome.storage.sync.get("spoiler", function (results) {
     spoilerItemsList = results;
     if (spoilerItemsList['spoiler'] == null) {
@@ -13,21 +16,18 @@ chrome.storage.sync.get("spoiler", function (results) {
 chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 
   	text = msg.action;
-	if (spoilerItemsList['spoiler'] == null) {
+	if (text === CLEAR_MESSAGE) {
 	spoilerItemsList = {
 		'spoiler': [] //initialize spoilerItemsList object
 	};
 	save();
-}
-  if (text === 'clear') {
-	spoilerItemsList = {
-		'spoiler': []
-	};
-  } else {
+	} else if (text === REMOVE_ITEM_MESSAGE) {
+	spoilerItemsList['spoiler'].splice(spoilerItemsList['spoiler'].indexOf(text), 1);
+	} else {
    spoilerItemsList['spoiler'].push(text);
-   console.log(text);
-  }
+  	}
    save();
+   searchForSpoilers();
 });
    function save() {
    		chrome.storage.sync.set({
@@ -38,5 +38,8 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 		}
 	}); 
 	alert(spoilerItemsList['spoiler']);
-
 }
+	
+	function searchForSpoilers() {
+		console.log(document);
+	}

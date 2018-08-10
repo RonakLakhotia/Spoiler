@@ -1,5 +1,6 @@
 var spoilerItemsList ;
 var listOfItems = document.getElementById("list");
+var REMOVE_SPOILER_ITEM_MESSAGE = 'remove';
 
    chrome.storage.sync.get("spoiler", function (results) {
     spoilerItemsList = results;
@@ -12,7 +13,6 @@ var listOfItems = document.getElementById("list");
     }
 });
  
-
    function save() {
 	chrome.storage.sync.set({
 		'spoiler': spoilerItemsList['spoiler']
@@ -28,6 +28,7 @@ var listOfItems = document.getElementById("list");
 		if (itemClicked.className === 'spoilerListItem') {
 			itemClicked.parentNode.parentNode.removeChild(itemClicked.parentNode);
 			spoilerItemsList['spoiler'].splice(spoilerItemsList['spoiler'].indexOf(itemClicked.text), 1);
+		    searchPageForSpoilers(REMOVE_SPOILER_ITEM_MESSAGE);
 		}
 	});
 
@@ -42,19 +43,22 @@ var listOfItems = document.getElementById("list");
 	function runPageSearch(type) {
 		save();
 		input.value = '';
-		updateList();
+		updateList();	
 		searchPageForSpoilers(type);
 	}
+
 	function getSpoilerText() {
 		if (input.value.length > 0) {
 			createElement();
 		}
 	}
+
 	function getSpoilerTextAfterKeyPress(event) {
 		if (input.value.length > 0 && event.keyCode === 13) {
 			createElement();
 		}
 	}
+
 	function clearList() {
 		let CLEAR = "clear";
 		spoilerItemsList = {
@@ -62,6 +66,7 @@ var listOfItems = document.getElementById("list");
 		};
 		runPageSearch(CLEAR);
 	}
+
 	function createElement() {
 		spoilerItemsList['spoiler'].push(input.value);
 		runPageSearch(input.value);
@@ -83,5 +88,3 @@ var listOfItems = document.getElementById("list");
     chrome.tabs.sendMessage(tabs[0].id, {action: type}, function(response) {});  
 		});
 	}
-
-

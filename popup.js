@@ -1,6 +1,7 @@
 var spoilerItemsList ;
 var listOfItems = document.getElementById("list");
 var REMOVE_SPOILER_ITEM_MESSAGE = 'remove';
+var SEARCH_PAGE_MESSAGE = 'search';
 
    chrome.storage.sync.get("spoiler", function (results) {
     spoilerItemsList = results;
@@ -12,6 +13,20 @@ var REMOVE_SPOILER_ITEM_MESSAGE = 'remove';
         save();
     }
 });
+
+ //   	var observer = new MutationObserver(function (mutations, observer) {
+ //        // fired when a mutation occurs
+ //        mutations.forEach(function(mutation) {
+ //            searchPageForSpoilers(SEARCH_PAGE_MESSAGE); console.log('lolz');
+ //        });
+
+	//     observer.observe(document, {
+	//     childList: true,
+	//     subtree: true,
+	//     attributes: false,
+	//     characterData: false,
+	//     });
+ // });
  
    function save() {
 	chrome.storage.sync.set({
@@ -21,7 +36,6 @@ var REMOVE_SPOILER_ITEM_MESSAGE = 'remove';
 			console.log(chrome.runtime.error);
 		}
 	}); 
-
 }
 	document.addEventListener('click', function(event) {
 		var itemClicked = event.target;

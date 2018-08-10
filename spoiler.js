@@ -2,6 +2,8 @@ var spoilerItemsList ;
 var text;
 var CLEAR_MESSAGE = 'clear';
 var REMOVE_ITEM_MESSAGE = 'remove';
+var SEARCH_PAGE_MESSAGE = 'search';
+var firstItem = true;
 
 chrome.storage.sync.get("spoiler", function (results) {
     spoilerItemsList = results;
@@ -13,9 +15,35 @@ chrome.storage.sync.get("spoiler", function (results) {
     }
 });
 
+window.onload = setUpObserver();
+
+function setUpObserver() {
+	console.log('here2');
+   	var observer = new MutationObserver(function (mutations, observer) {
+    // fired when a mutation occurs
+    console.log('here also');
+    mutations.forEach(function(mutation) {
+        searchForSpoilers();
+    });
+
+ });
+    observer.observe(document, {
+    childList: true,
+    subtree: true,
+    attributes: false,
+    characterData: false,
+    });
+
+}
+
 chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 
+	// if (firstItem) {
+	// 	setUpObserver();
+	// }
+	// firstItem = false;
   	text = msg.action;
+
 	if (text === CLEAR_MESSAGE) {
 	spoilerItemsList = {
 		'spoiler': [] //initialize spoilerItemsList object
@@ -26,6 +54,7 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 	} else {
    spoilerItemsList['spoiler'].push(text);
   	}
+
    save();
    searchForSpoilers();
 });

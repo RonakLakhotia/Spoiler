@@ -7,7 +7,9 @@
 		"scripts": ["popup.js"]
 	},
 	"browser_action": {
-		"default_icon": "icon.png",
+		"default_icon": {
+			"16": "spoiler.png"
+		},
 		"default_popup": "popup.html"
 	},
 	"permissions": [

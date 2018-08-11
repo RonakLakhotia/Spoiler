@@ -3,6 +3,7 @@ var listOfItems = document.getElementById("list");
 var REMOVE_SPOILER_ITEM_MESSAGE = 'remove';
 var SEARCH_PAGE_MESSAGE = 'search';
 
+// Look in storage sync for an object called 'spoilerItemsList'
 chrome.storage.sync.get("spoiler", function (results) {
 	spoilerItemsList = results;
 	updateList();	
@@ -23,6 +24,8 @@ function save() {
 		}
 	}); 
 }
+
+// When a spoilerListItem gets clicked, remove it from the list
 document.addEventListener('click', function(event) {
 	var itemClicked = event.target;
 	if (itemClicked.className === 'spoilerListItem') {
@@ -72,6 +75,7 @@ function createElement() {
 	runPageSearch(input.value);
 }
 
+// Handles showing the list of terms in the extention popup
 function updateList() {
 	if (spoilerItemsList['spoiler'] != null) {
 		listOfItems.innerHTML = "";
@@ -83,6 +87,7 @@ function updateList() {
 		listOfItems.innerHTML = html;
 	}
 }
+
 function searchPageForSpoilers(type) {
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 		chrome.tabs.sendMessage(tabs[0].id, {action: type}, function(response) {});  

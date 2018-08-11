@@ -67,14 +67,6 @@ function save() {
 function searchForSpoilers() {
 
 	var nodes = document.getElementsByClassName('userContentWrapper');
-
-		// for (let j = 0; j < spoilerItemsList['spoiler'].length; j++) {
-		// 	for (let i = 0, n = nodes.length; i < n; i++) {
-		// 		let itemText = nodes[i] ? nodes[i].textContent.toLowerCase() : "";
-		// 		if (nodes[i].style.filter === "blur(5px)" && itemText)
-		// 	}
-		// }
-
 		for (let j = 0; j < spoilerItemsList['spoiler'].length; j++) {
 			for (let i = 0, n = nodes.length; i < n; i++) {
 				let searchItem = spoilerItemsList['spoiler'][j];

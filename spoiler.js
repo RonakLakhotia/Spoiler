@@ -18,10 +18,8 @@ chrome.storage.sync.get("spoiler", function (results) {
 window.onload = setUpObserver();
 
 function setUpObserver() {
-	console.log('here2');
 	var observer = new MutationObserver(function (mutations, observer) {
     // fired when a mutation occurs
-    console.log('here also');
     mutations.forEach(function(mutation) {
     	searchForSpoilers();
     });
@@ -37,9 +35,7 @@ function setUpObserver() {
 }
 
 chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
-
 	text = msg.action;
-
 	if (text === CLEAR_MESSAGE) {
 		spoilerItemsList = {
 		'spoiler': [] //initialize spoilerItemsList object
@@ -54,6 +50,7 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 save();
 searchForSpoilers();
 });
+
 function save() {
 	chrome.storage.sync.set({
 		'spoiler': spoilerItemsList['spoiler']

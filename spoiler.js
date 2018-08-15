@@ -64,13 +64,13 @@ function save() {
 function searchForSpoilers() {
 
 	var nodes = document.getElementsByClassName('userContentWrapper');
-		for (let j = 0; j < spoilerItemsList['spoiler'].length; j++) {
-			for (let i = 0, n = nodes.length; i < n; i++) {
-				let searchItem = spoilerItemsList['spoiler'][j];
-				let itemText = nodes[i] ? nodes[i].textContent.toLowerCase() : "";
-				if (RegExp('\\b' + searchItem + '\\b', 'i').test(itemText)) {
-					nodes[i].style.filter = "blur(5px)";
-				}
+	for (let j = 0; j < spoilerItemsList['spoiler'].length; j++) {
+		for (let i = 0, n = nodes.length; i < n; i++) {
+			let searchItem = spoilerItemsList['spoiler'][j];
+			let itemText = nodes[i] ? nodes[i].textContent.toLowerCase() : "";
+			if (RegExp('\\b' + searchItem + '\\b', 'i').test(itemText)) {
+				nodes[i].style.filter = "blur(5px)";
 			}
 		}
 	}
+}
